@@ -18,7 +18,7 @@ This repository contains the final project for the Big Data Engineering course a
 ---
 
 ## Introduction
-`
+
 Pneumonia is an infectious disease primarily affecting the lungs, caused by various infectious agents including bacteria, viruses or even fungi (Prayle, Atkinson, & Smyth, 2011). It leads to inflammation in the small air sacs (alveoli) and the surrounding tissues, causing breathing difficulties and severe symptoms as they fill with fluid or pus (Torres et al., 2021). This repository addresses the identification of pneumonia in chest radiographs using machine learning and deep learning techniques.
 
 ## Background
