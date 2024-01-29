@@ -1,4 +1,4 @@
-# Pneumonia Image Identification: Big Data Final Project
+# Pneumonia Image Identification: Big Data Engineering Final Project
 
 ## Overview
 
