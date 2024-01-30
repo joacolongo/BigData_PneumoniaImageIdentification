@@ -50,6 +50,81 @@ The project aims to develop machine learning and deep learning models for predic
 3. **Evaluation Metrics**: Models will be evaluated using metrics like accuracy.
 4. **Performance Enhancement**: Techniques such as cross-validation and data augmentation will be used to enhance model performance.
 
+## Material and methods
+
+Data collection and preparation:
+
+The dataset was obtained from Kaggle, specifically from the repository provided by Paul Mooney. The Kaggle API was utilized in Google Colab to seamlessly integrate the dataset into the environment. The downloaded dataset was stored in Google Drive for easy access and management. The Kaggle API authentication allowed direct download of the dataset to Google Colab. The dataset, named "chest-xray-pneumonia," was retrieved using the Kaggle API's dataset_download_files function. Upon download, the dataset was extracted using the unzip command and organized in Google Drive.
+
+Exploratory Data Analysis
+
+In our exploratory data analysis (EDA), we utilized Python along with several libraries to gain insights into the dataset. We employed Pandas for data manipulation and analysis, Matplotlib for creating visualizations such as bar plots and histograms, and Seaborn to enhance the aesthetics of our plots. Additionally, we leveraged PySpark for distributed data processing and analysis, enabling efficient handling of large-scale datasets.
+
+Throughout our EDA process, we undertook several key steps. Firstly, we partitioned the dataset into training, testing, and validation sets, providing a structured framework for subsequent analysis. Using Matplotlib, we generated bar plots to visualize the distribution of images across the normal and pneumonia classes for each dataset, facilitating a clear understanding of class imbalances and dataset compositions.
+
+Furthermore, we conducted in-depth analysis by creating separate datasets for images belonging to normal individuals and patients with pneumonia. This involved data manipulation tasks executed with PySpark, ensuring scalability and efficiency in handling the dataset's large volume.
+
+To gain insights into the physical characteristics of the images, we calculated pixel counts for the height and width dimensions in both categories. PySpark's distributed computation capabilities enabled us to perform these calculations efficiently, even on large-scale datasets. We visualized the distribution of these pixel counts through histograms, providing valuable insights into the variability and characteristics of images within each class.
+
+A comprehensive dataset was constructed using the create_image_dataframe function, which facilitated the extraction of crucial information including image names, file paths, dataset categorizations (train, test, or validation), and image labels denoting normal or pneumonia conditions. This initial dataset served as the foundation for subsequent analysis and model development.
+
+In order to assess the physical characteristics of the images, the calculate_pixel_counts function was employed to ascertain the number of pixels present in both the height and width dimensions of each image. This step provided essential insights into the dimensions and resolutions of the images, aiding in further preprocessing and analysis.
+Subsequently, the process_data function was utilized to carry out image processing tasks. This involved adjusting the resolution of the images, identifying lung regions within the images, and removing a predetermined number of pixels from the borders to refine the dataset for subsequent analysis.
+
+With the individual image processing steps completed, the compose_dataset function was employed to compile the dataset. This involved applying the previously executed image processing techniques, transforming the pixel matrices into vectors, and assembling these flattened vectors into a Spark DataFrame. The resulting DataFrame contained the processed images in the form of flattened vectors (stored in the 'images' column) along with their corresponding labels denoting the class (stored in the 'class' column).
+
+For effective visualization and interpretation of the dataset composition, various visualizations were generated using Matplotlib. Bar plots were utilized to visualize the distribution of images across different datasets, providing insights into dataset composition and balance. Additionally, histograms were employed to depict the pixel counts for both height and width dimensions in normal and pneumonia images, aiding in understanding the variability and characteristics of the images within each class.
+
+Preprocessing
+
+The preprocessing phase began with normalization, where resizing parameters were established to ensure uniform image dimensions across the dataset. This involved setting the image resolution to (100, 100, 1) and defining a border of 30 pixels. The datasets were then partitioned into train, test, and validation sets to facilitate systematic analysis. Each set underwent preprocessing using the compose_dataset function, which involved image processing techniques to refine and enhance the dataset.
+
+After preprocessing, the validation set was visualized to gain insights into the quality of the images. This allowed for an in-depth inspection of the images, providing a qualitative assessment of the dataset's composition. Each image was displayed with its corresponding label, indicating whether it belonged to the 'Normal' or 'Pneumonia' class.
+
+In preparation for data modeling, several steps were taken to ensure proper dataset formatting. The dimensions of the preprocessed test set were evaluated to understand its size and structure. Additionally, distinct values in the "class" column of the test set were extracted to analyze the distribution of classes.
+
+Furthermore, the length of the first vector in the preprocessed train set was computed to validate data consistency. A user-defined function, numpy_tovector_udf, was created to convert numpy arrays to Spark Vector types, facilitating seamless integration into the Spark framework.
+
+The train, test, and validation sets were then transformed into DataFrames with features and label columns using the VectorAssembler functionality. This transformation structured the datasets for machine learning modeling, creating separate columns for features and labels.
+
+Build the model
+
+We utilized the Keras framework to construct a neural network model, specifying its architecture to include an input layer, two hidden layers, and an output layer. The input layer was designed with a shape of 10000 elements, representing the number of features in the dataset. The model incorporated two dense hidden layers, each comprising 12 and 8 neurons, respectively, and utilized the rectified linear unit (ReLU) activation function. The output layer comprised two neurons, devoid of any activation function, suitable for binary classification tasks.
+
+Following the model's definition, we compiled it using the Adam optimizer and the Cross Entropy Criterion as the loss function. The optimizer method was set to Adam, and the batch size was configured as 64 instances per batch. Additionally, we specified the maximum number of epochs for training the model to be 50.
+
+To encapsulate the neural network model and its configurations effectively, we instantiated an NNClassifier object. This encapsulation allowed us to apply optimizer method, batch size, and maximum epoch settings to the NNClassifier instance, streamlining the training process of the neural network classifier.
+
+Model training
+
+Before training the model, we conducted a preprocessing step to randomize the order of the training dataset, aiming to reduce potential biases that could arise from grouping all images with one label together. Randomizing the dataset order helps ensure that the model learns effectively across all classes and minimizes the risk of biases during training. This involved adding a new column called 'rand_col' to the training dataset and populating it with random values. Subsequently, the DataFrame was ordered by the 'rand_col' column to achieve a random order of instances, after which the 'rand_col' column was dropped to maintain the original structure.
+Once the dataset was randomized, we trained the neural network model using the NNClassifier instance, which had been configured with desired settings for optimization method, batch size, and maximum epoch. The fit method of the classifier was then applied to the randomized training DataFrame, resulting in the training of the neural network model on the randomized dataset.
+
+Predict and evaluation of the results
+
+Following model training, we evaluated its performance using an external set of images. This involved predicting classifications for these unseen instances and assessing the accuracy of the predictions, which serves as the standard metric for classification tasks.
+
+First, the model predicted classifications for the test set using the trained neural network model, storing the predictions in a DataFrame named predictionDF, which was then cached for efficiency. A sample of the prediction DataFrame was displayed for inspection.
+
+Next, we evaluated the model's performance using various metrics, including accuracy, precision, recall, and F1 score. These metrics were calculated using the MulticlassClassificationEvaluator, comparing predicted labels with true labels in the test set. The results were visualized using a bar plot to facilitate comparison across different metrics. Additionally, the accuracy of the model was reiterated for clarity.
+
+Finally, we created a confusion matrix to visualize the model's performance in more detail, illustrating true positive, false positive, true negative, and false negative predictions. The matrix was plotted as a heatmap, with true labels represented on the y-axis and predicted labels on the x-axis, providing insights into the model's classification performance.
+
+## Results and discussion
+
+The classification accuracy of our model stands at 78%, indicating a reasonable performance. However, it's important to note that this accuracy depends on various factors, and further evaluation is warranted. In addition to accuracy, other evaluation metrics such as precision, recall, and F1-score can provide a more comprehensive understanding of the model's performance, especially in the case of imbalanced classes, which is evident in our dataset.
+
+Calculating precision and recall yields valuable insights into the model's performance in classifying both pneumonia and normal images. Precision, which indicates the percentage of positive predictions that were correct, is particularly crucial in medical diagnoses, where minimizing false positives is vital. Our model achieved a precision of 82.50%, indicating its ability to accurately identify positive instances. Conversely, recall, which measures the ability to capture all positive instances, is essential in detecting diseases where identifying all positive cases is critical. Our model exhibited a recall rate that complements its precision, resulting in an F1-score of 75.92%, suggesting a reasonable balance between precision and recall.
+
+While these metrics indicate a reasonable performance overall, further development and refinement of the model are warranted to achieve a more efficient and precise classification model for pneumonia identification. The confusion matrix provides valuable insights into the model's performance across different classes, highlighting areas where the model may be overfitted or biased due to the nature of the training data.
+
+Analysis of the confusion matrix reveals that our model excels in predicting patients with pneumonia, with an efficiency of 98.72%. This high accuracy in diagnosing pneumonia patients is crucial for ensuring timely and efficient treatment. However, the model exhibits limitations in identifying healthy individuals, potentially leading to unnecessary treatment administration and hospitalization. This discrepancy may stem from the imbalanced classes in the training set, where pneumonia images were overrepresented. Future studies should explore techniques to create a more balanced training set to enhance the model's accuracy and address these limitations.
+
+## Conclusion
+
+In conclusion, our model demonstrates high efficiency in identifying patients with pneumonia, which aligns with the primary objective of the project. However, its limitations in identifying healthy individuals underscore the need for further development and refinement. Addressing these challenges through balanced training data and advanced modeling techniques will be crucial in enhancing the model's accuracy and applicability in clinical settings.
+
+
 ## References
 
 - Prayle, A., Atkinson, M., & Smyth, A. (2011). *Pediatric Respiratory Medicine*.
