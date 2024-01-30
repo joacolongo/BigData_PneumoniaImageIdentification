@@ -41,14 +41,13 @@ The use of machine learning and deep learning models for predicting pneumonia fr
 
 ## Project Goals
 
-The project aims to develop machine learning and deep learning models for predicting pneumonia from chest radiographs, focusing on big data namagement. These models would analyze features extracted from a high number of chest radiographs to detect pneumonia.
+The project aims to develop machine learning and deep learning models for predicting pneumonia from chest radiographs, focusing on big data mamagement. These models would analyze features extracted from a high number of chest radiographs to detect pneumonia.
 
 ## Approach
 
 1. **Data Management and Preprocessing**: Proper data preprocessing techniques will be applied to manage high volume of data.
 2. **Model Development and Training**: ML-DL models will be trained and evaluated.
 3. **Evaluation Metrics**: Models will be evaluated using metrics like accuracy.
-4. **Performance Enhancement**: Techniques such as cross-validation and data augmentation will be used to enhance model performance.
 
 ## Material and methods
 
