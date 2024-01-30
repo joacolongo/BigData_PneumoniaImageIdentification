@@ -89,7 +89,7 @@ Finally, we transformed the train, test, and validation sets into DataFrames wit
 
 ### Build the model
 
-We utilized the Keras framework to construct a neural network model, specifying its architecture to include an input layer, two hidden layers, and an output layer. The input layer was designed with a shape of 10000 elements, representing the number of features in the dataset. The model incorporated two dense hidden layers, each comprising 12 and 8 neurons, respectively, and utilized the rectified linear unit (ReLU) activation function. The output layer comprised two neurons, devoid of any activation function, suitable for binary classification tasks.
+We utilized the Keras framework to construct a neural network model, specifying its architecture to include an input layer, two hidden layers, and an output layer. All the construction and implementation of the build was within the open-source distributed deep learning framework for Apache Spark: BigDL (Big Data Library for Deep Learning). The input layer was designed with a shape of 10000 elements, representing the number of features in the dataset. The model incorporated two dense hidden layers, each comprising 12 and 8 neurons, respectively, and utilized the rectified linear unit (ReLU) activation function. The output layer comprised two neurons, devoid of any activation function, suitable for binary classification tasks.
 
 Following the model's definition, we compiled it using the Adam optimizer and the Cross Entropy Criterion as the loss function. The optimizer method was set to Adam, and the batch size was configured as 64 instances per batch. Additionally, we specified the maximum number of epochs for training the model to be 50.
 
@@ -120,10 +120,11 @@ While these metrics indicate a reasonable performance overall, further developme
 
 Analysis of the confusion matrix reveals that our model excels in predicting patients with pneumonia, with an efficiency of 98.72%. This high accuracy in diagnosing pneumonia patients is crucial for ensuring timely and efficient treatment. However, the model exhibits limitations in identifying healthy individuals, potentially leading to unnecessary treatment administration and hospitalization. This discrepancy may stem from the imbalanced classes in the training set, where pneumonia images were overrepresented. Future studies should explore techniques to create a more balanced training set to enhance the model's accuracy and address these limitations.
 
+Despite extensive efforts in hyperparameter optimization and alterations to the neural network layers, it was not possible to overcome the limitation in the accuracy of our model. Additionally, further research should be conducted to explore alternative strategies or address potential limitations beyond hyperparameter optimization and neural network layer adjustments.
+
 ## Conclusion
 
 In conclusion, our model demonstrates high efficiency in identifying patients with pneumonia, which aligns with the primary objective of the project. However, its limitations in identifying healthy individuals underscore the need for further development and refinement. Addressing these challenges through balanced training data and advanced modeling techniques will be crucial in enhancing the model's accuracy and applicability in clinical settings.
-
 
 ## References
 
