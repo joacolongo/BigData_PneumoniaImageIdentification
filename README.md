@@ -52,11 +52,11 @@ The project aims to develop machine learning and deep learning models for predic
 
 ## Material and methods
 
-Data collection and preparation:
+### Data collection and preparation:
 
 The dataset was obtained from Kaggle, specifically from the repository provided by Paul Mooney. The Kaggle API was utilized in Google Colab to seamlessly integrate the dataset into the environment. The downloaded dataset was stored in Google Drive for easy access and management. The Kaggle API authentication allowed direct download of the dataset to Google Colab. The dataset, named "chest-xray-pneumonia," was retrieved using the Kaggle API's dataset_download_files function. Upon download, the dataset was extracted using the unzip command and organized in Google Drive.
 
-Exploratory Data Analysis
+### Exploratory Data Analysis
 
 In our exploratory data analysis (EDA), we utilized Python along with several libraries to gain insights into the dataset. We employed Pandas for data manipulation and analysis, Matplotlib for creating visualizations such as bar plots and histograms, and Seaborn to enhance the aesthetics of our plots. Additionally, we leveraged PySpark for distributed data processing and analysis, enabling efficient handling of large-scale datasets.
 
@@ -75,19 +75,19 @@ With the individual image processing steps completed, the compose_dataset functi
 
 For effective visualization and interpretation of the dataset composition, various visualizations were generated using Matplotlib. Bar plots were utilized to visualize the distribution of images across different datasets, providing insights into dataset composition and balance. Additionally, histograms were employed to depict the pixel counts for both height and width dimensions in normal and pneumonia images, aiding in understanding the variability and characteristics of the images within each class.
 
-Preprocessing
+### Preprocessing
 
 The preprocessing phase began with normalization, where resizing parameters were established to ensure uniform image dimensions across the dataset. This involved setting the image resolution to (100, 100, 1) and defining a border of 30 pixels. The datasets were then partitioned into train, test, and validation sets to facilitate systematic analysis. Each set underwent preprocessing using the compose_dataset function, which involved image processing techniques to refine and enhance the dataset.
 
-After preprocessing, the validation set was visualized to gain insights into the quality of the images. This allowed for an in-depth inspection of the images, providing a qualitative assessment of the dataset's composition. Each image was displayed with its corresponding label, indicating whether it belonged to the 'Normal' or 'Pneumonia' class.
+Following preprocessing, we visually inspected the validation set to assess image quality. This involved examining each image alongside its corresponding label, indicating whether it fell under the 'Normal' or 'Pneumonia' class.
 
-In preparation for data modeling, several steps were taken to ensure proper dataset formatting. The dimensions of the preprocessed test set were evaluated to understand its size and structure. Additionally, distinct values in the "class" column of the test set were extracted to analyze the distribution of classes.
+To prepare the data for modeling, we conducted several steps to ensure proper dataset formatting. We evaluated the dimensions of the preprocessed test set to understand its structure and size. Additionally, we extracted distinct values from the "class" column of the test set to analyze class distribution.
 
-Furthermore, the length of the first vector in the preprocessed train set was computed to validate data consistency. A user-defined function, numpy_tovector_udf, was created to convert numpy arrays to Spark Vector types, facilitating seamless integration into the Spark framework.
+Furthermore, we computed the length of the first vector in the preprocessed train set to verify data consistency. We also developed a user-defined function, numpy_tovector_udf, to convert numpy arrays into Spark Vector types, enabling seamless integration into the Spark framework.
 
-The train, test, and validation sets were then transformed into DataFrames with features and label columns using the VectorAssembler functionality. This transformation structured the datasets for machine learning modeling, creating separate columns for features and labels.
+Finally, we transformed the train, test, and validation sets into DataFrames with features and label columns using the VectorAssembler functionality. This transformation organized the datasets for machine learning modeling by creating separate columns for features and labels.
 
-Build the model
+### Build the model
 
 We utilized the Keras framework to construct a neural network model, specifying its architecture to include an input layer, two hidden layers, and an output layer. The input layer was designed with a shape of 10000 elements, representing the number of features in the dataset. The model incorporated two dense hidden layers, each comprising 12 and 8 neurons, respectively, and utilized the rectified linear unit (ReLU) activation function. The output layer comprised two neurons, devoid of any activation function, suitable for binary classification tasks.
 
@@ -95,12 +95,12 @@ Following the model's definition, we compiled it using the Adam optimizer and th
 
 To encapsulate the neural network model and its configurations effectively, we instantiated an NNClassifier object. This encapsulation allowed us to apply optimizer method, batch size, and maximum epoch settings to the NNClassifier instance, streamlining the training process of the neural network classifier.
 
-Model training
+### Model training
 
 Before training the model, we conducted a preprocessing step to randomize the order of the training dataset, aiming to reduce potential biases that could arise from grouping all images with one label together. Randomizing the dataset order helps ensure that the model learns effectively across all classes and minimizes the risk of biases during training. This involved adding a new column called 'rand_col' to the training dataset and populating it with random values. Subsequently, the DataFrame was ordered by the 'rand_col' column to achieve a random order of instances, after which the 'rand_col' column was dropped to maintain the original structure.
 Once the dataset was randomized, we trained the neural network model using the NNClassifier instance, which had been configured with desired settings for optimization method, batch size, and maximum epoch. The fit method of the classifier was then applied to the randomized training DataFrame, resulting in the training of the neural network model on the randomized dataset.
 
-Predict and evaluation of the results
+### Predict and evaluation of the results
 
 Following model training, we evaluated its performance using an external set of images. This involved predicting classifications for these unseen instances and assessing the accuracy of the predictions, which serves as the standard metric for classification tasks.
 
@@ -127,12 +127,13 @@ In conclusion, our model demonstrates high efficiency in identifying patients wi
 
 ## References
 
-- Prayle, A., Atkinson, M., & Smyth, A. (2011). *Pediatric Respiratory Medicine*.
-- Torres, A., Blasi, F., Peetermans, W. E., Viegi, G., Welte, T., & Reiss, T. F. (2021). *European Respiratory Journal, 57*(6), 1-29.
-- Centers for Disease Control and Prevention. (2022). [CDC - Pneumonia](https://www.cdc.gov/pneumonia/index.html).
-- Wee, L. E., Lye, D. C., & Lee, V. J. (2023). *The Lancet Respiratory Medicine, 11*(3), 228-229.
-- Ramgopal, M., LaPlace, E., & Shah, M. (2022). *Journal of Digital Imaging, 35*(1), 1-13.
-- Sharma, A., & Guleria, R. (2023). *European Journal of Radiology, 159*, 109025.
-- Kim, S. H., Kim, D. H., & Kim, M. S. (2023). *Journal of Digital Imaging, 36*(1), 1-11.
+- Prayle, A., Atkinson, M., & Smyth, A. (2011). Pneumonia in the developed world. *Pediatric Respiratory Medicine, 12*(1):60-9.
+- Torres, A., Cilloniz, C., Niederman, M. S., et al. (2021). Pneumonia. *Nat Rev Dis Primers, 7*, 25.
+- Centers for Disease Control and Prevention. (2022). Risk Factors for Pneumonia. Retrieved from [https://www.cdc.gov/pneumonia/riskfactors.html](https://www.cdc.gov/pneumonia/riskfactors.html). Obtained on January 27, 2024.
+- Wee, L. E., Lye, D. C., & Lee, V. J. (2023). Developments in pneumonia and priorities for research. *The Lancet Respiratory Medicine, 11*(12), 1046-1047.
+- Ramgopal, S., Ambroggio, L., Lorenz, D., Shah, SS., Ruddy, RM., & Florin, TA. (2022). A Prediction Model for Pediatric Radiographic Pneumonia. *Pediatrics, 149*(1), e2021051405.
+- Sharma, A., & Guleria, R. (2023). A Deep Learning based model for the Detection of Pneumonia from Chest X-Ray Images using VGG-16 and Neural Networks. *Procedia Computer Science, 218*, 357-366.
+- Kim, C., Hwang, E. J., Choi, Y. R., Choi, H., Goo, J. M., Kim, Y., Choi, J., & Park, C. M. (2023). A Deep Learning Model Using Chest Radiographs for Prediction of 30-Day Mortality in Patients With Community-Acquired Pneumonia: Development and External Validation. *AJR Am J Roentgenol, 221*(5), 586-598.
+
 
 ---
